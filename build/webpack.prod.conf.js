@@ -12,7 +12,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const S3Plugin = require('webpack-s3-plugin')
 const AWS = require('aws-sdk')
-const credentials = new AWS.SharedIniFileCredentials({profile: 'ratox'})
+const credentials = new AWS.SharedIniFileCredentials({profile: 'marighella'})
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
