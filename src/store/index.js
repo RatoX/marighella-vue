@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     queries: [],
     news: [],
+    newsToEdit: {},
   },
 
   mutations: {
@@ -30,6 +31,7 @@ export default new Vuex.Store({
   getters: {
     queries: state => state.queries,
     news: state => state.news,
+    toEdit: state => state.newsToEdit,
   },
 
   actions: {
@@ -49,6 +51,7 @@ export default new Vuex.Store({
         const news = [...Array(5).keys()]
           .map((_, i) => {
             return {
+              id: `0x0${i}`,
               title: `Um titulo legal ${i}`,
             };
           });
@@ -56,6 +59,14 @@ export default new Vuex.Store({
 
         commit('REPLACE_NEWS_RESULT', news);
         resolve();
+      });
+    },
+
+    EDIT({ state }, { id }) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1000);
       });
     },
   },

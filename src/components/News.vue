@@ -1,5 +1,13 @@
 <template>
   <section class="news">
+    <figure
+      v-if="loading"
+      class="news__loading">
+      <font-awesome-icon
+        :icon="['fas', 'spinner']"
+        spin
+        size="3x"/>
+    </figure>
     <header class="news__header">
       <font-awesome-icon :icon="['fas', 'search']" />
       <input
@@ -21,9 +29,10 @@
         name="slide-fade">
         <news-card
           v-for="item in news"
-          :key="item.title"
+          :key="item.id"
           :title="item.title"
-          class="news__item"/>
+          class="news__item"
+          @edit="toEdit(item.id)"/>
       </transition-group>
     </section>
   </section>
@@ -46,6 +55,7 @@ export default {
   data() {
     return {
       query: '',
+      loading: false,
     };
   },
 
@@ -70,6 +80,18 @@ export default {
         .dispatch('SEARCH')
         .then(() => {
           this.query = '';
+        });
+    },
+
+    toEdit(id) {
+      this.loading = true;
+
+      this
+        .$store
+        .dispatch('EDIT', { id })
+        .then(() => {
+          console.log('eita cabou');
+          this.loading = false;
         });
     },
   },
@@ -125,6 +147,18 @@ export default {
 .news__item +
 .news__item {
   margin-top: 10px;
+}
+
+.news__loading {
+  position: absolute;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(44, 62, 80, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
 }
 
 .slide-fade-enter-active {

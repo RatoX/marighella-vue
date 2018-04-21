@@ -1,5 +1,7 @@
 <template>
-  <section class="news-card">
+  <section
+    class="news-card"
+    @click.stop="edit">
     <font-awesome-icon :icon="['far', 'newspaper']" />
     <h1 class="news-card__title">{{ title }}</h1>
   </section>
@@ -19,6 +21,12 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+  },
+
+  methods: {
+    edit() {
+      this.$emit('edit');
     },
   },
 };
