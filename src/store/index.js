@@ -26,12 +26,16 @@ export default new Vuex.Store({
     REPLACE_NEWS_RESULT(state, news) {
       state.news = news;
     },
+
+    NEWS_TO_EDIT(state, newsToEdit) {
+      state.newsToEdit = newsToEdit;
+    },
   },
 
   getters: {
     queries: state => state.queries,
     news: state => state.news,
-    toEdit: state => state.newsToEdit,
+    newsToEdit: state => state.newsToEdit,
   },
 
   actions: {
@@ -62,8 +66,13 @@ export default new Vuex.Store({
       });
     },
 
-    EDIT({ state }, { id }) {
+    EDIT({ state, commit }, { id }) {
       return new Promise((resolve) => {
+
+        commit('NEWS_TO_EDIT', {
+          title: 'Rodrigo isso eh um titulo',
+        });
+
         setTimeout(() => {
           resolve();
         }, 1000);

@@ -90,8 +90,7 @@ export default {
         .$store
         .dispatch('EDIT', { id })
         .then(() => {
-          console.log('eita cabou');
-          this.loading = false;
+          this.$router.push(`/news/${id}`);
         });
     },
   },
