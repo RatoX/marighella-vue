@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '@/components/Login';
-import News from '@/components/News';
+import NewsSearch from '@/components/NewsSearch';
 import NewsEdit from '@/components/NewsEdit';
 
 Vue.use(Router);
@@ -16,7 +16,7 @@ export default new Router({
     {
       path: '/news',
       name: 'News',
-      component: News,
+      component: NewsSearch,
     },
     {
       path: '/news/:id',

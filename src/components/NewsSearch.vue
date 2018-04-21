@@ -44,7 +44,7 @@ import SearchTags from './SearchTags';
 import NewsCard from './NewsCard';
 
 export default {
-  name: 'News',
+  name: 'NewsSearch',
 
   components: {
     FontAwesomeIcon,

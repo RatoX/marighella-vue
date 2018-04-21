@@ -22,6 +22,8 @@
         icon="bullhorn"
         placeholder="Preencha o titulo"/>
     </section>
+    <Vueditor
+      class="news-edit__editor"/>
   </section>
 </template>
 
@@ -65,6 +67,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100vw;
+  min-height: 100vh;
 }
 
 .news-edit__header {
@@ -96,5 +99,10 @@ export default {
 
 .news-edit__back {
   cursor: pointer;
+}
+
+.news-edit__editor {
+  margin-top: 30px;
+  flex: 1 0 100%;
 }
 </style>

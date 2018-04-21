@@ -6,6 +6,7 @@ import router from './router';
 import store from './store';
 
 require('./icons');
+require('./editor');
 
 Vue.config.productionTip = false;
 
