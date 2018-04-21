@@ -10,6 +10,7 @@ export default new Vuex.Store({
     queries: [],
     news: [],
     newsToEdit: {},
+    tags: [],
   },
 
   mutations: {
@@ -17,9 +18,19 @@ export default new Vuex.Store({
       state.queries.splice(index, 1);
     },
 
+    REMOVE_TAG(state, index) {
+      state.tags.splice(index, 1);
+    },
+
     ADD_QUERY_SEARCH(state, query) {
       if(query) {
         state.queries.splice(0, 0, query);
+      }
+    },
+
+    ADD_TAG(state, tag) {
+      if(tag) {
+        state.tags.splice(0, 0, tag);
       }
     },
 
@@ -35,6 +46,7 @@ export default new Vuex.Store({
   getters: {
     queries: state => state.queries,
     news: state => state.news,
+    tags: state => state.tags,
     newsToEdit: state => state.newsToEdit,
   },
 

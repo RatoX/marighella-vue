@@ -8,7 +8,7 @@
         @click="backToSearch"/>
       <strong
         class="news-edit__title">
-        {{ title }}
+        Editar
       </strong>
     </header>
     <section class="news-edit__required">
@@ -21,6 +21,8 @@
         text="titulo"
         icon="bullhorn"
         placeholder="Preencha o titulo"/>
+      <tags
+        class="news-edit__item"/>
     </section>
     <Vueditor
       class="news-edit__editor"/>
@@ -30,6 +32,7 @@
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import EditableField from './EditableField.vue';
+import Tags from './Tags.vue';
 
 export default {
   name: 'NewsEdit',
@@ -37,6 +40,7 @@ export default {
   components: {
     FontAwesomeIcon,
     EditableField,
+    Tags,
   },
 
   data() {
@@ -47,10 +51,6 @@ export default {
   computed: {
     item() {
       return this.$store.getters.newsToEdit;
-    },
-
-    title() {
-      return this.item.title || 'Titulo';
     },
   },
 
