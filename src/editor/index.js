@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import Vueditor from 'vueditor'
-import 'vueditor/dist/style/vueditor.min.css'
+import Vueditor from 'vueditor';
+import 'vueditor/dist/style/vueditor.min.css';
 
-let config = {
+const config = {
   toolbar: [
     'removeFormat',
     '|',
@@ -29,7 +29,9 @@ let config = {
     'tables',
   ],
   fontName: [
-    {val: 'Helvetica'},
+    {
+      val: 'Helvetica',
+    },
   ],
   fontSize: ['12px', '14px', '16px', '18px'],
   uploadUrl: '',

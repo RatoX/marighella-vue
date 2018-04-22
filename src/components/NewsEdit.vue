@@ -10,29 +10,46 @@
         class="news-edit__title">
         Editar
       </strong>
+      <font-awesome-icon
+        :icon="['fas', 'code']"
+        class="news-edit__show-code"
+        size="lg"
+        @click="toggleCodeMode"/>
     </header>
-    <section class="news-edit__required">
-      <editable-field
-        class="news-edit__item"
-        text="chapeu"
-        placeholder="Preencha o chapeu"/>
-      <editable-field
-        class="news-edit__item"
-        text="titulo"
-        icon="bullhorn"
-        placeholder="Preencha o titulo"/>
-      <tags
-        class="news-edit__item"/>
-    </section>
-    <Vueditor
-      class="news-edit__editor"/>
+    <transition name="slide-fade">
+      <section
+        v-if="!codeMode"
+        class="news-edit__form">
+        <section class="news-edit__required">
+          <editable-field
+            class="news-edit__item"
+            text="chapeu"
+            placeholder="Preencha o chapeu"/>
+          <editable-field
+            class="news-edit__item"
+            text="titulo"
+            icon="bullhorn"
+            placeholder="Preencha o titulo"/>
+          <tags
+            class="news-edit__item"/>
+        </section>
+        <Vueditor
+          class="news-edit__editor"/>
+      </section>
+      <section
+        v-if="codeMode"
+        class="news-edit__code">
+        <show-code />
+      </section>
+    </transition>
   </section>
 </template>
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
-import EditableField from './EditableField.vue';
-import Tags from './Tags.vue';
+import EditableField from './EditableField';
+import Tags from './Tags';
+import ShowCode from './ShowCode';
 
 export default {
   name: 'NewsEdit',
@@ -41,10 +58,12 @@ export default {
     FontAwesomeIcon,
     EditableField,
     Tags,
+    ShowCode,
   },
 
   data() {
     return {
+      codeMode: false,
     };
   },
 
@@ -57,6 +76,10 @@ export default {
   methods: {
     backToSearch() {
       this.$router.push('/news/');
+    },
+
+    toggleCodeMode() {
+      this.codeMode = !this.codeMode;
     },
   },
 };
@@ -104,5 +127,15 @@ export default {
 .news-edit__editor {
   margin-top: 30px;
   flex: 1 0 100%;
+}
+
+.news-edit__show-code {
+  cursor: pointer;
+}
+
+.news-edit__form {
+  display: flex;
+  flex: 1 0 100%;
+  flex-direction: column;
 }
 </style>

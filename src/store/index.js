@@ -23,13 +23,13 @@ export default new Vuex.Store({
     },
 
     ADD_QUERY_SEARCH(state, query) {
-      if(query) {
+      if (query) {
         state.queries.splice(0, 0, query);
       }
     },
 
     ADD_TAG(state, tag) {
-      if(tag) {
+      if (tag) {
         state.tags.splice(0, 0, tag);
       }
     },
@@ -48,6 +48,14 @@ export default new Vuex.Store({
     news: state => state.news,
     tags: state => state.tags,
     newsToEdit: state => state.newsToEdit,
+    data: state => {
+      return Object.assign({},
+        {
+          tags: state.tags,
+        },
+        state.newsToEdit,
+      );
+    },
   },
 
   actions: {
@@ -78,10 +86,10 @@ export default new Vuex.Store({
       });
     },
 
-    EDIT({ state, commit }, { id }) {
+    EDIT({ commit }, { id }) {
       return new Promise((resolve) => {
-
         commit('NEWS_TO_EDIT', {
+          id,
           title: 'Rodrigo isso eh um titulo',
         });
 
