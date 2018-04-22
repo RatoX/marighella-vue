@@ -1,28 +1,36 @@
 <template>
   <section
-    v-on-clickaway="persistText"
+    v-on-clickaway="persistValue"
+    :title="placeholder"
     class="editable-field"
     @click="editField">
     <font-awesome-icon
       :icon="fontIcon"
       class="editable-field__icon"/>
     <span
-      v-if="!editMode && text"
+      v-if="!editMode && value"
       class="editable-field__span">
-      {{ text }}
+      {{ value }}
     </span>
     <span
-      v-if="!editMode && !text"
+      v-if="!editMode && !value"
       class="editable-field__placeholder">
       {{ placeholder }}
     </span>
     <input
-      v-if="editMode"
+      v-if="editMode && isInputType"
       ref="inputText"
-      v-model="text"
+      v-model="tmpValue"
+      :type="type"
       class="editable-field__input"
-      type="text"
-      @keyup.enter="persistText">
+      @keyup.enter="persistValue">
+    <select
+      v-if="editMode && isSelectType"
+      class="editable-field__select">
+      <option value="-1">Selecione</option>
+      <option value="1">Option 1</option>
+      <option value="4">Oçao</option>
+    </select>
   </section>
 </template>
 
@@ -41,7 +49,7 @@ export default {
   mixins: [clickaway],
 
   props: {
-    text: {
+    dataKey: {
       type: String,
       default: '',
     },
@@ -55,11 +63,17 @@ export default {
       type: String,
       default: 'book',
     },
+
+    type: {
+      type: String,
+      default: 'text',
+    },
   },
 
   data() {
     return {
       editMode: false,
+      tmpValue: '',
     };
   },
 
@@ -67,6 +81,22 @@ export default {
     fontIcon() {
       return ['fas', this.icon];
     },
+
+    isInputType() {
+      return ['text', 'date'].includes(this.type);
+    },
+
+    isSelectType() {
+      return this.type === 'select';
+    },
+
+    value() {
+      return this.$store.getters.newsToEdit[this.dataKey];
+    },
+  },
+
+  beforeMount() {
+    this.tmpValue = this.$store.getters.newsToEdit[this.dataKey];
   },
 
   methods: {
@@ -74,12 +104,18 @@ export default {
       this.editMode = true;
 
       Vue.nextTick(() => {
-        this.$refs.inputText.focus();
+        if (this.$refs.inputText) {
+          this.$refs.inputText.focus();
+        }
       });
     },
 
-    persistText() {
+    persistValue() {
       this.editMode = false;
+      this.$store.commit('SET_VALUE', {
+        dataKey: this.dataKey,
+        value: this.tmpValue,
+      });
     },
   },
 };
@@ -96,6 +132,11 @@ export default {
   margin-right: 5px;
 }
 
+.editable-field__select {
+  background-color: #FFF;
+}
+
+.editable-field__select,
 .editable-field__input {
   border: none;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -105,6 +146,7 @@ export default {
   border-bottom: 1px solid;
   width: 70%;
   text-transform: capitalize;
+  max-width: 200px;
 }
 
 .editable-field__span,
@@ -118,6 +160,7 @@ export default {
   font-style: italic;
 }
 
+.editable-field__select:focus,
 .editable-field__input:focus {
   outline: none;
 }

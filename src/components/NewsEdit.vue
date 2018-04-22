@@ -11,6 +11,16 @@
         Editar
       </strong>
       <font-awesome-icon
+        :icon="['fas', 'edit']"
+        class="news-edit__show-edit"
+        size="lg"
+        @click="toggleEditMode"/>
+      <font-awesome-icon
+        :icon="['fas', 'th']"
+        class="news-edit__show-metadata"
+        size="lg"
+        @click="toggleMetadataMode"/>
+      <font-awesome-icon
         :icon="['fas', 'code']"
         class="news-edit__show-code"
         size="lg"
@@ -18,16 +28,16 @@
     </header>
     <transition name="slide-fade">
       <section
-        v-if="!codeMode"
+        v-if="editMode"
         class="news-edit__form">
         <section class="news-edit__required">
           <editable-field
+            data-key="hat"
             class="news-edit__item"
-            text="chapeu"
             placeholder="Preencha o chapeu"/>
           <editable-field
+            data-key="title"
             class="news-edit__item"
-            text="titulo"
             icon="bullhorn"
             placeholder="Preencha o titulo"/>
           <tags
@@ -41,6 +51,11 @@
         class="news-edit__code">
         <show-code />
       </section>
+      <section
+        v-if="metadataMode"
+        class="news-edit__metadata">
+        <metadata />
+      </section>
     </transition>
   </section>
 </template>
@@ -50,6 +65,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import EditableField from './EditableField';
 import Tags from './Tags';
 import ShowCode from './ShowCode';
+import Metadata from './Metadata';
 
 export default {
   name: 'NewsEdit',
@@ -59,17 +75,30 @@ export default {
     EditableField,
     Tags,
     ShowCode,
+    Metadata,
   },
 
   data() {
     return {
-      codeMode: false,
+      mode: 'edit',
     };
   },
 
   computed: {
     item() {
       return this.$store.getters.newsToEdit;
+    },
+
+    codeMode() {
+      return this.mode === 'code';
+    },
+
+    metadataMode() {
+      return this.mode === 'metadata';
+    },
+
+    editMode() {
+      return this.mode === 'edit';
     },
   },
 
@@ -79,7 +108,15 @@ export default {
     },
 
     toggleCodeMode() {
-      this.codeMode = !this.codeMode;
+      this.mode = 'code';
+    },
+
+    toggleMetadataMode() {
+      this.mode = 'metadata';
+    },
+
+    toggleEditMode() {
+      this.mode = 'edit';
     },
   },
 };
@@ -120,17 +157,29 @@ export default {
   text-align: left;
 }
 
-.news-edit__back {
-  cursor: pointer;
-}
-
 .news-edit__editor {
   margin-top: 30px;
   flex: 1 0 100%;
 }
 
-.news-edit__show-code {
+.news-edit__back,
+.news-edit__show-code,
+.news-edit__show-edit,
+.news-edit__show-metadata {
   cursor: pointer;
+  transition: color .2s ease-in-out;
+}
+
+.news-edit__back:hover,
+.news-edit__show-code:hover,
+.news-edit__show-edit:hover,
+.news-edit__show-metadata:hover {
+  color: #786FA6;
+}
+
+.news-edit__show-metadata,
+.news-edit__show-edit {
+  margin-right: 25px;
 }
 
 .news-edit__form {

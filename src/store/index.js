@@ -34,6 +34,10 @@ export default new Vuex.Store({
       }
     },
 
+    SET_VALUE(state, { dataKey, value }) {
+      Vue.set(state.newsToEdit, dataKey, value);
+    },
+
     REPLACE_NEWS_RESULT(state, news) {
       state.news = news;
     },
@@ -48,14 +52,14 @@ export default new Vuex.Store({
     news: state => state.news,
     tags: state => state.tags,
     newsToEdit: state => state.newsToEdit,
-    data: state => {
-      return Object.assign({},
+    data: state => (
+      Object.assign({},
         {
           tags: state.tags,
         },
         state.newsToEdit,
-      );
-    },
+      )
+    ),
   },
 
   actions: {
@@ -73,12 +77,10 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         console.log(`Searching for ${state.queries}`);
         const news = [...Array(5).keys()]
-          .map((_, i) => {
-            return {
-              id: `0x0${i}`,
-              title: `Um titulo legal ${i}`,
-            };
-          });
+          .map((_, i) => ({
+            id: `0x0${i}`,
+            title: `Um titulo legal ${i}`,
+          }));
 
 
         commit('REPLACE_NEWS_RESULT', news);
