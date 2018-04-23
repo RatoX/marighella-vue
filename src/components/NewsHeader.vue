@@ -13,16 +13,19 @@
       :icon="['fas', 'edit']"
       class="news-header__show-edit"
       size="lg"
+      title="Editar corpo da noticia"
       @click="toggleEditMode"/>
     <font-awesome-icon
       :icon="['fas', 'th']"
       class="news-header__show-metadata"
       size="lg"
+      title="Editar metadata"
       @click="toggleMetadataMode"/>
     <font-awesome-icon
       :icon="['fas', 'code']"
       class="news-header__show-code"
       size="lg"
+      title="Visualizar codigo"
       @click="toggleCodeMode"/>
   </header>
 </template>
@@ -65,11 +68,12 @@ export default {
 
 <style scoped>
 .news-header {
-  display: flex;
   align-items: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  display: flex;
   justify-content: space-around;
-  width: 100%;
   padding: 0 10px;
+  width: 100%;
 }
 
 .news-header__title {
