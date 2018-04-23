@@ -24,9 +24,16 @@
       :type="type"
       class="editable-field__input"
       @keyup.enter="persistValue">
+    <textarea
+      v-if="editMode && isTextAreaType"
+      ref="inputText"
+      v-model="tmpValue"
+      class="editable-field__textarea"
+      @keyup.enter="persistValue" />
     <select
       v-if="editMode && isSelectType"
-      class="editable-field__select">
+      class="editable-field__select"
+      @change="persistValue">
       <option value="-1">Selecione</option>
       <option value="1">Option 1</option>
       <option value="4">Oçao</option>
@@ -38,6 +45,7 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import { mixin as clickaway } from 'vue-clickaway';
 import Vue from 'vue';
+import autosize from 'autosize';
 
 export default {
   name: 'EditableField',
@@ -86,6 +94,10 @@ export default {
       return ['text', 'date'].includes(this.type);
     },
 
+    isTextAreaType() {
+      return this.type === 'textarea';
+    },
+
     isSelectType() {
       return this.type === 'select';
     },
@@ -107,6 +119,10 @@ export default {
         if (this.$refs.inputText) {
           this.$refs.inputText.focus();
         }
+
+        if ( this.isTextAreaType ) {
+          autosize(this.$refs.inputText);
+        }
       });
     },
 
@@ -124,8 +140,9 @@ export default {
 <style scoped>
 .editable-field {
   cursor: pointer;
-  height: 25px;
+  min-height: 25px;
   text-align: left;
+  display: flex;
 }
 
 .editable-field__icon {
@@ -137,6 +154,7 @@ export default {
 }
 
 .editable-field__select,
+.editable-field__textarea,
 .editable-field__input {
   border: none;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -146,7 +164,8 @@ export default {
   border-bottom: 1px solid;
   width: 70%;
   text-transform: capitalize;
-  max-width: 200px;
+  max-width: 400px;
+  display: block;
 }
 
 .editable-field__span,
@@ -154,6 +173,7 @@ export default {
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
   text-transform: capitalize;
+  max-width: 400px;
 }
 
 .editable-field__placeholder {
@@ -161,6 +181,7 @@ export default {
 }
 
 .editable-field__select:focus,
+.editable-field__textarea:focus,
 .editable-field__input:focus {
   outline: none;
 }

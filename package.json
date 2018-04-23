@@ -17,6 +17,7 @@
     "@fortawesome/fontawesome-free-regular": "^5.0.10",
     "@fortawesome/fontawesome-free-solid": "^5.0.10",
     "@fortawesome/vue-fontawesome": "0.0.22",
+    "autosize": "^4.0.1",
     "vue": "^2.5.2",
     "vue-clickaway": "^2.2.2",
     "vue-router": "^3.0.1",

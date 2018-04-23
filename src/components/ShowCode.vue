@@ -32,5 +32,6 @@ export default {
 
 .show-code__code {
   display: block;
+  overflow: scroll;
 }
 </style>

@@ -3,14 +3,16 @@
     class="news-body">
     <section class="news-body__required">
       <editable-field
-        data-key="hat"
-        class="news-body__item"
-        placeholder="Preencha o chapeu"/>
-      <editable-field
         data-key="title"
         class="news-body__item"
         icon="bullhorn"
         placeholder="Preencha o titulo"/>
+      <editable-field
+        data-key="description"
+        class="news-body__item"
+        icon="text-height"
+        type="textarea"
+        placeholder="Preencha a linha fina"/>
       <tags
         class="news-body__item"/>
     </section>
