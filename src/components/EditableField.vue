@@ -1,6 +1,5 @@
 <template>
   <section
-    v-on-clickaway="persistValue"
     :title="placeholder"
     class="editable-field"
     @click="editField">
@@ -8,16 +7,20 @@
       :icon="fontIcon"
       class="editable-field__icon"/>
     <span
-      v-if="!editMode && value"
+      v-if="!editMode && value && !isTextAreaType"
       class="editable-field__span">
       {{ value }}
     </span>
+    <p
+      v-if="!editMode && value && isTextAreaType"
+      class="editable-field__paragraph">{{ value }}</p>
     <span
       v-if="!editMode && !value"
       class="editable-field__placeholder">
       {{ placeholder }}
     </span>
     <input
+      v-on-clickaway="persistValue"
       v-if="editMode && isInputType"
       ref="inputText"
       v-model="tmpValue"
@@ -25,6 +28,7 @@
       class="editable-field__input"
       @keyup.enter="persistValue">
     <textarea
+      v-on-clickaway="persistValue"
       v-if="editMode && isTextAreaType"
       ref="inputText"
       v-model="tmpValue"
@@ -120,7 +124,7 @@ export default {
           this.$refs.inputText.focus();
         }
 
-        if ( this.isTextAreaType ) {
+        if (this.isTextAreaType) {
           autosize(this.$refs.inputText);
         }
       });
@@ -130,7 +134,7 @@ export default {
       this.editMode = false;
       this.$store.commit('SET_VALUE', {
         dataKey: this.dataKey,
-        value: this.tmpValue,
+        value: this.tmpValue.trim(),
       });
     },
   },
@@ -143,10 +147,12 @@ export default {
   min-height: 25px;
   text-align: left;
   display: flex;
+  max-width: 600px;
+  align-items: center;
 }
 
 .editable-field__icon {
-  margin-right: 5px;
+  margin-right: 15px;
 }
 
 .editable-field__select {
@@ -163,21 +169,23 @@ export default {
   font-size: 16px;
   border-bottom: 1px solid;
   width: 70%;
-  text-transform: capitalize;
-  max-width: 400px;
   display: block;
 }
 
 .editable-field__span,
+.editable-field__paragraph,
 .editable-field__placeholder {
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
-  text-transform: capitalize;
-  max-width: 400px;
+}
+
+.editable-field__paragraph {
+  white-space: pre-wrap;
 }
 
 .editable-field__placeholder {
   font-style: italic;
+  text-transform: capitalize;
 }
 
 .editable-field__select:focus,
