@@ -36,11 +36,15 @@
       @keyup.enter="persistValue" />
     <select
       v-if="editMode && isSelectType"
+      v-model="tmpValue"
       class="editable-field__select"
       @change="persistValue">
-      <option value="-1">Selecione</option>
-      <option value="1">Option 1</option>
-      <option value="4">Oçao</option>
+      <option
+        v-for="option in dataOptions"
+        :key="option.id"
+        :value="option.id">
+        {{ option.name }}
+      </option>
     </select>
   </section>
 </template>
@@ -66,6 +70,11 @@ export default {
       default: '',
     },
 
+    dataOptions: {
+      type: Array,
+      default: () => [],
+    },
+
     placeholder: {
       type: String,
       default: 'Preencha este campo',
@@ -79,6 +88,9 @@ export default {
     type: {
       type: String,
       default: 'text',
+      validator(value) {
+        return ['textarea', 'text', 'select', 'date'].includes(value);
+      },
     },
   },
 
@@ -107,7 +119,13 @@ export default {
     },
 
     value() {
-      return this.$store.getters.newsToEdit[this.dataKey];
+      let result = this.$store.getters.newsToEdit[this.dataKey];
+      if (this.isSelectType) {
+        const option = this.dataOptions.find(e => e.id === result);
+        result = option ? option.name : '';
+      }
+
+      return result;
     },
   },
 
@@ -134,7 +152,7 @@ export default {
       this.editMode = false;
       this.$store.commit('SET_VALUE', {
         dataKey: this.dataKey,
-        value: this.tmpValue.trim(),
+        value: (this.tmpValue || '').trim(),
       });
     },
   },

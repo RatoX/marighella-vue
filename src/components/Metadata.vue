@@ -1,21 +1,20 @@
 <template>
   <section class="metadata">
     <editable-field
-      data-key="newsDate"
+      v-for="item in skelleton"
+      :key="item.name"
+      :data-key="item.name"
+      :title="item.title"
+      :type="item.type.view"
+      :placeholder="item.placeholder"
+      :data-options="item.type.options"
       class="metadata__item"
-      type="date"
-      icon="calendar"
-      placeholder="Preencha o data da noticia"/>
-    <editable-field
-      data-key="section"
-      class="metadata__item"
-      type="select"
-      icon="list-alt"
-      placeholder="Selecione a sessao"/>
+      icon="bullhorn"/>
   </section>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import EditableField from './EditableField';
 
@@ -29,6 +28,10 @@ export default {
 
   data() {
     return { };
+  },
+
+  computed: {
+    ...mapState(['skelleton']),
   },
 };
 </script>

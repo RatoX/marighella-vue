@@ -11,6 +11,25 @@ export default new Vuex.Store({
     news: [],
     newsToEdit: {},
     tags: [],
+    skelleton: [{
+      name: 'section',
+      title: 'Seção',
+      placeholder: 'Preencha a seção',
+      required: false,
+      type: {
+        view: 'select',
+        options: [
+          {
+            name: 'Capa',
+            id: 'cover',
+          },
+          {
+            name: 'Destaque',
+            id: 'featured',
+          },
+        ],
+      },
+    }],
   },
 
   mutations: {
