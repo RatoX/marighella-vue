@@ -17,12 +17,16 @@
         class="news-body__item"/>
     </section>
     <Vueditor
+      v-on-clickaway="persistBody"
+      ref="editor"
       class="news-body__editor"/>
   </section>
 </template>
 
 <script>
+import Vue from 'vue';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { mixin as clickaway } from 'vue-clickaway';
 import EditableField from './EditableField';
 import Tags from './Tags';
 
@@ -33,6 +37,22 @@ export default {
     FontAwesomeIcon,
     EditableField,
     Tags,
+  },
+
+  mixins: [clickaway],
+
+  mounted() {
+    const body = this.$store.getters.newsToEdit.body;
+    console.log('body:', body);
+    this.$refs.editor.setContent(body);
+
+    Vue.nextTick();
+  },
+
+  methods: {
+    persistBody() {
+      this.$store.commit('SET_VALUE', { dataKey: 'body', value: this.$refs.editor.getContent() });
+    },
   },
 };
 </script>

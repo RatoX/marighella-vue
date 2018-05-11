@@ -61,6 +61,10 @@ export default new Vuex.Store({
       state.news = news;
     },
 
+    UPDATE_BODY(state, body) {
+      state.body = body;
+    },
+
     NEWS_TO_EDIT(state, newsToEdit) {
       state.newsToEdit = newsToEdit;
     },
@@ -112,6 +116,7 @@ export default new Vuex.Store({
         commit('NEWS_TO_EDIT', {
           id,
           title: 'Rodrigo isso eh um titulo',
+          body: '<strong>Noticia Teste</strong>',
         });
 
         setTimeout(() => {
